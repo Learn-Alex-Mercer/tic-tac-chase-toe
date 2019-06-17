@@ -1,0 +1,39 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  background: rgb(117, 140, 142);
+}
+
+.container {
+  padding-top: 3rem;
+}
+
+.map {
+  border: 1px solid #999;
+  border-right: 0;
+  border-bottom: 0;
+  width: 652px;
+  margin: auto;
+}
+
+.map .row {
+  display: flex;
+  flex-direction: row;
+}
+
+.map .box {
+  border: 1px solid #999;
+  border-top: 0;
+  border-left: 0;
+  height: 64px;
+  width: 64px;
+  background: url('../images/ground.png') no-repeat;
+}
+
+.map .blocked {
+  background: url('../images/crate.png') no-repeat;
+}
+
+.map .weapon {
+  width: 90%;
+}
