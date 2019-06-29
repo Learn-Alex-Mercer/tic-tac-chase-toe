@@ -3,6 +3,8 @@
 // to perform optimizations to run our code faster.
 'use strict';
 
+import Weapon from './weapon.js';
+
 // Global constant variables that can't be changed but are accessible 
 // anywhere in our code.
 const PLAYERS = [
@@ -25,39 +27,38 @@ const PLAYERS = [
 ];
 
 const WEAPONS = [
-  {
+  new Weapon ({
     name: "Pistol",
-    damage: 10,
     className: "pistol",
+    damage: 10,
     src: "images/weapons/pistol.png",
     owner: null,
     location: { row: null, column: null },
-    moveTo: moveTo
-  },
-  {
+  }),
+  new Weapon ({
     name: "Shotgun",
     damage: 20,
     className: "shotgun",
     src: "images/weapons/shotgun.png",
     owner: null,
     location: { row: null, column: null },
-  },
-  {
+  }),
+  new Weapon ({
     name: "Machine Gun",
     damage: 30,
     className: "machinegun",
     src: "images/weapons/machinegun.png",
     owner: null,
     location: { row: null, column: null },
-  },
-  {
+  }),
+  new Weapon ({
     name: "Sniper",
     damage: 40,
     className: "sniper",
     src: "images/weapons/sniper.png",
     owner: null,
     location: { row: null, column: null },
-  },
+  }),
 ];
 
 function init() {
@@ -77,7 +78,7 @@ function init() {
 document.addEventListener("DOMContentLoaded", () => init());
 
 // Build a map matrix based on the specified number of rows and columns
-// with an 80% chance that a given box would be available and not blocked.
+// with an 90% chance that a given box would be available and not blocked.
 function buildMapMatrix(rows, columns) {
   const AVAILABLE_BOXES_PERCENTAGE = 90;
   let newMapMatrix = [];
