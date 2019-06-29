@@ -9,8 +9,8 @@ class Weapon {
    * @param {string} specs.className - The CSS class name of the weapon.
    * @param {string} specs.src - The image source for the weapon.
    * @param {number} specs.damage - The amount of damage caused by the weapon.
-   * @param {?object} specs.owner - The owner of the weapon.
-   * @param {?object} specs.location - The current location of the weapon on the board.
+   * @param {?Player} specs.owner - The owner of the weapon.
+   * @param {?object} specs.location - The current location of the weapon on the board. If it's not owned.
    * @param {?number} specs.location.row - The current row of the board where the weapon is located.
    * @param {?number} specs.location.column - The current column of the board where the weapon is located.
    */
