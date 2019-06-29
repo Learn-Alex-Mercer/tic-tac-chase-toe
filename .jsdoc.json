@@ -1,0 +1,30 @@
+{
+  "tags": {
+      "allowUnknownTags": true
+  },
+  "source": {
+      "include": ["js", "README.md"],
+      "includePattern": ".js$",
+      "excludePattern": "(node_modules/|docs)"
+  },
+  "plugins": [
+      "./node_modules/jsdoc-export-default-interop/dist/index",
+      "plugins/markdown"
+    ],
+  "templates": {
+      "cleverLinks": false,
+      "monospaceLinks": true,
+      "useLongnameInNav": false,
+      "showInheritedInNav": true,
+      "default": {
+          "outputSourceFiles": true
+      }
+  },
+  "opts": {
+    "destination": "./docs/",
+    "encoding": "utf8",
+    "private": true,
+    "recurse": true,
+    "template": "./node_modules/minami"
+  }
+}

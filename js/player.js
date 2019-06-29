@@ -1,7 +1,7 @@
 /**
  * Create a Player class.
  */
-class Player {
+export default class Player {
   /**
    * Create a player.
    * @param {object} specs - The specs of the player.
@@ -35,9 +35,3 @@ class Player {
     console.log(`${this.name} moved to ${row}x${column}.`)
   }
 }
-
-/**
- * A module that hosts the Player class.
- * @module Player
- */
-export default Player;

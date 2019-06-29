@@ -1,7 +1,7 @@
 /**
  * Create a Weapon class.
  */
-class Weapon {
+export default class Weapon {
   /**
    * Create a weapon.
    * @param {object} specs - The specs of the weapon.
@@ -54,9 +54,3 @@ class Weapon {
     return true;
   }
 }
-
-/**
- * A module that hosts the Weapon class.
- * @module Weapon
- */
-export default Weapon;

@@ -1,0 +1,18 @@
+{
+  "name": "ttct-game",
+  "version": "0.3.0",
+  "description": "Tic Tac Chase Toe Game",
+  "main": "js/index.js",
+  "dependencies": {},
+  "devDependencies": {
+    "jsdoc": "^3.6.2",
+    "jsdoc-export-default-interop": "^0.3.1",
+    "minami": "^1.2.3"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "generate-docs": "node_modules/.bin/jsdoc --configure .jsdoc.json --verbose"
+  },
+  "author": "Usman Bashir",
+  "license": "ISC"
+}

@@ -77,10 +77,8 @@ const WEAPONS = [
 
 /**
  * Get everything setup and the game responding to user actions.
- * This file requires the modules {@link Weapon} and {@link Player}.
+ * This method requires the classes {@link Weapon} and {@link Player}.
  * @function
- * @requires Weapon
- * @requires Player
  */
 function init() {
   console.log("Tic Tac Chase Toe Init...")
