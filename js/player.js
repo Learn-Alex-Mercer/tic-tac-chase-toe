@@ -9,7 +9,7 @@ class Player {
    * @param {string} specs.className - The CSS class name of the player.
    * @param {string} specs.src - The image source for the player.
    * @param {number} specs.health - The current health level of the player.
-   * @param {?object} specs.weapon - The current weapon owned by the player.
+   * @param {?Weapon} specs.weapon - The current weapon owned by the player.
    * @param {?object} specs.location - The current location of the player on the board.
    * @param {?number} specs.location.row - The current row of the board where the player is located.
    * @param {?number} specs.location.column - The current column of the board where the player is located.
