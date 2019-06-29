@@ -10,6 +10,7 @@
 // to perform optimizations to run our code faster.
 'use strict';
 
+import Map from './map.js';
 import Weapon from './weapon.js';
 import Player from './player.js';
 
@@ -85,9 +86,8 @@ function init() {
 
   const mapElm = document.querySelector(".map");
 
-  const map = buildMapMatrix(10, 10);
-
-  generateMap(map, mapElm);
+  const map = new Map(10, 10, 90, mapElm);
+  
   placeWeapons(map, mapElm, WEAPONS);
   placePlayers(map, mapElm, PLAYERS, WEAPONS);
 }
@@ -96,57 +96,6 @@ function init() {
 // get everything setup and the game responding to user actions.
 document.addEventListener("DOMContentLoaded", () => init());
 
-// Build a map matrix based on the specified number of rows and columns
-// with an 90% chance that a given box would be available and not blocked.
-function buildMapMatrix(rows, columns) {
-  const AVAILABLE_BOXES_PERCENTAGE = 90;
-  let newMapMatrix = [];
-  
-  for (let row = 0; row < rows; row++) {
-    let matrixRow = [];
-
-    for (let column = 0; column < columns; column++) {
-      // Get a random number between 1 and (ROWS * COLUMNS).
-      const randChance = Math.floor( Math.random() * (rows * columns) );
-
-      // Set the column as available if the random number is 80 or less.
-      // Otherwise, the column will be unavailable for players to use.
-      matrixRow.push(randChance <= AVAILABLE_BOXES_PERCENTAGE ? true : false);
-    }
-
-    // Add the completed row to the new map matrix.
-    newMapMatrix.push(matrixRow);
-  }
-
-  return newMapMatrix;
-}
-
-// Build a map based on the provided map matrix and add it to the DOM.
-function generateMap(map, mapElm) {
-  // Clear the map of all content, if any. So we can start fresh.
-  let firstChild = mapElm.firstChild;
-  while(firstChild) {
-    mapElm.removeChild(firstChild);
-    firstChild = mapElm.firstChild;
-  }
-
-  map.forEach(row => {
-    // Create a new div with the "row" class for each row in the matrix.
-    let elmRow = document.createElement("div");
-    elmRow.className = "row";
-
-    row.forEach(column => {
-      // Based on the column being available or blocked for use by the players.
-      // Create a new div with appropriate CSS class's to visually distinguish them.
-      let elmColumn = document.createElement("div");
-      elmColumn.className = column === true ? "box" : "box blocked";
-      elmRow.appendChild(elmColumn);
-    });
-
-    // Add the completed row to the Map element in the DOM.
-    mapElm.appendChild(elmRow);
-  });
-}
 
 // Take the pre-defined weapons and randomly distribute them across the game board.
 function placeWeapons(map, mapElm, weapons) {
