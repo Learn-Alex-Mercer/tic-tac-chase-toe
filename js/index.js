@@ -1,3 +1,10 @@
+/**
+ * Tic Tac Chase Toe Game
+ * @author Usman Bashir <me@usmanbashir.com>
+ * @copyright 2019
+ * @version 0.3.0
+ */
+
 // Enable strict mode to eliminate some JavaScript silent errors 
 // by changing them to throw errors. And help JavaScript engines 
 // to perform optimizations to run our code faster.
@@ -6,8 +13,10 @@
 import Weapon from './weapon.js';
 import Player from './player.js';
 
-// Global constant variables that can't be changed but are accessible 
-// anywhere in our code.
+/**
+ * A constant list of players.
+ * @readonly
+ */
 const PLAYERS = [
   new Player({
     name: "Player 1",
@@ -27,6 +36,10 @@ const PLAYERS = [
   })
 ];
 
+/**
+ * A constant list of weapons.
+ * @readonly
+ */
 const WEAPONS = [
   new Weapon ({
     name: "Pistol",
@@ -62,6 +75,13 @@ const WEAPONS = [
   }),
 ];
 
+/**
+ * Get everything setup and the game responding to user actions.
+ * This file requires the modules {@link Weapon} and {@link Player}.
+ * @function
+ * @requires Weapon
+ * @requires Player
+ */
 function init() {
   console.log("Tic Tac Chase Toe Init...")
 
