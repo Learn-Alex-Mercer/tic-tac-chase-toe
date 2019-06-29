@@ -24,13 +24,13 @@ class Weapon {
   }
 
   /**
-   * Place the weapon on the given row and column, if it's not owned by a player.
+   * Place the weapon on the given row and column, if it's not owned by a {@link Player}.
    * @param {number} row - The new row of the board where the weapon should be located.
    * @param {number} column - The new column of the board where the weapon should be located.
    * @returns {boolean} True if the weapon was moved to the new location.
    */
   moveTo(row, column) {
-    if (this.owner !== undefined) { return false; }
+    if (this.owner !== undefined || this.owner !== null) { return false; }
 
     this.location.row = row;
     this.location.column = column;
