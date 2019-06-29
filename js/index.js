@@ -4,26 +4,27 @@
 'use strict';
 
 import Weapon from './weapon.js';
+import Player from './player.js';
 
 // Global constant variables that can't be changed but are accessible 
 // anywhere in our code.
 const PLAYERS = [
-  {
+  new Player({
     name: "Player 1",
     className: "playerOne",
     src: "images/people/soldier/stand.png",
     health: 100,
     weapon: null,
     location: { row: null, column: null }
-  },
-  {
+  }),
+  new Player({
     name: "Player 2",
     className: "playerTwo",
     src: "images/people/hitman/stand.png",
     health: 100,
     weapon: null,
     location: { row: null, column: null }
-  }
+  })
 ];
 
 const WEAPONS = [
