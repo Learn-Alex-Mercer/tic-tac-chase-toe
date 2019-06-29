@@ -24,6 +24,20 @@ class Weapon {
   }
 
   /**
+   * Get the current location of the weapon.
+   * Regardless of it being owned by a {@link Player} or not.
+   * @readonly
+   * @returns {object} Location Object
+   */
+  getLocation() {
+    if (this.owner === undefined || this.owner === null) {
+      return this.location;
+    } else {
+      return this.owner.location;
+    }
+  }
+
+  /**
    * Place the weapon on the given row and column, if it's not owned by a {@link Player}.
    * @param {number} row - The new row of the board where the weapon should be located.
    * @param {number} column - The new column of the board where the weapon should be located.
