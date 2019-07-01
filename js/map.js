@@ -73,7 +73,7 @@ export default class Map {
         // Based on the column being available or blocked for use by the players.
         // Create a new div with appropriate CSS class's to visually distinguish them.
         let elmColumn = document.createElement("div");
-        elmColumn.className = column === true ? "box" : "box blocked";
+        elmColumn.className = column === true ? "box empty" : "box blocked";
         elmRow.appendChild(elmColumn);
       });
 

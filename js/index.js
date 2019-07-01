@@ -14,6 +14,8 @@ import Map from './map.js';
 import Weapon from './weapon.js';
 import Player from './player.js';
 
+const CLICK_EVENT = "click";
+
 /**
  * A constant list of players.
  * @readonly
@@ -77,6 +79,11 @@ const WEAPONS = [
 ];
 
 /**
+ * Reference to the current player with the turn.
+ */
+let currentPlayer;
+
+/**
  * Get everything setup and the game responding to user actions.
  * This method requires the classes {@link Weapon} and {@link Player}.
  * @function
@@ -90,11 +97,21 @@ function init() {
   
   placeWeapons(map, mapElm, WEAPONS);
   placePlayers(map, mapElm, PLAYERS, WEAPONS);
+
+  currentPlayer = PLAYERS[0];
+
+  document.querySelector("div.map").addEventListener(CLICK_EVENT, onEmptyBoxClicked);
 }
 
 // Call the initialization function when the DOM is done loading to 
 // get everything setup and the game responding to user actions.
 document.addEventListener("DOMContentLoaded", () => init());
+
+function onEmptyBoxClicked(e) {
+  if (e.target.classList.contains('empty')) {
+    currentPlayer = currentPlayer === PLAYERS[0] ? PLAYERS[1] : PLAYERS[0];
+  }
+}
 
 
 // Take the pre-defined weapons and randomly distribute them across the game board.
