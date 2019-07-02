@@ -64,16 +64,18 @@ export default class Map {
       firstChild = this.container.firstChild;
     }
 
-    this.matrix.forEach(row => {
+    this.matrix.forEach((row, rowIndex) => {
       // Create a new div with the "row" class for each row in the matrix.
       let elmRow = document.createElement("div");
       elmRow.className = "row";
 
-      row.forEach(column => {
+      row.forEach((column, columnIndex) => {
         // Based on the column being available or blocked for use by the players.
         // Create a new div with appropriate CSS class's to visually distinguish them.
         let elmColumn = document.createElement("div");
         elmColumn.className = column === true ? "box empty" : "box blocked";
+        elmColumn.setAttribute('data-row', rowIndex);
+        elmColumn.setAttribute('data-column', columnIndex);
         elmRow.appendChild(elmColumn);
       });
 
