@@ -1,3 +1,5 @@
+import { getBoxElement } from './helper.js';
+
 /**
  * Create a Player class.
  */
@@ -21,6 +23,10 @@ export default class Player {
     this.health = specs.health;
     this.weapon = specs.weapon;
     this.location = specs.location;
+
+    this.element = document.createElement("img");
+    this.element.className = `player ${this.className}`;
+    this.element.src = this.src;
   }
 
   /**
@@ -31,6 +37,8 @@ export default class Player {
   moveTo(row, column) {
     this.location.row = row;
     this.location.column = column;
+
+    getBoxElement(this.location.row, this.location.column).appendChild(this.element);
 
     console.log(`${this.name} moved to ${row}x${column}.`)
   }

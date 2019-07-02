@@ -21,24 +21,7 @@ const CLICK_EVENT = "click";
  * A constant list of players.
  * @readonly
  */
-const PLAYERS = [
-  new Player({
-    name: "Player 1",
-    className: "playerOne",
-    src: "images/people/soldier/stand.png",
-    health: 100,
-    weapon: null,
-    location: { row: null, column: null }
-  }),
-  new Player({
-    name: "Player 2",
-    className: "playerTwo",
-    src: "images/people/hitman/stand.png",
-    health: 100,
-    weapon: null,
-    location: { row: null, column: null }
-  })
-];
+const PLAYERS = [];
 
 /**
  * A constant list of weapons.
@@ -84,6 +67,8 @@ const WEAPONS = [
  */
 let currentPlayer;
 
+let map;
+
 /**
  * Get everything setup and the game responding to user actions.
  * This method requires the classes {@link Weapon} and {@link Player}.
@@ -94,12 +79,34 @@ function init() {
 
   const mapElm = document.querySelector(".map");
 
-  const map = new Map(10, 10, 90, mapElm);
+  map = new Map(10, 10, 90, mapElm);
   
   placeWeapons(map, mapElm, WEAPONS);
+
+
+  PLAYERS.push(new Player({
+    name: "Player 1",
+    className: "playerOne",
+    src: "images/people/soldier/stand.png",
+    health: 100,
+    weapon: null,
+    location: { row: null, column: null }
+  }, mapElm));
+
+  PLAYERS.push(new Player({
+    name: "Player 2",
+    className: "playerTwo",
+    src: "images/people/hitman/stand.png",
+    health: 100,
+    weapon: null,
+    location: { row: null, column: null }
+  }, mapElm));
+
   placePlayers(map, mapElm, PLAYERS, WEAPONS);
 
   currentPlayer = PLAYERS[0];
+
+  placeValidPlayerMoves(map, currentPlayer);
 
   document.querySelector("div.map").addEventListener(CLICK_EVENT, onEmptyBoxClicked);
 }
@@ -108,9 +115,72 @@ function init() {
 // get everything setup and the game responding to user actions.
 document.addEventListener("DOMContentLoaded", () => init());
 
-function onEmptyBoxClicked(e) {
-  if (e.target.classList.contains('empty')) {
+const onEmptyBoxClicked = function(e) {
+  const elmBox = e.target;
+
+  if (elmBox.classList.contains("valid")) {
+    const newRow = parseInt(elmBox.getAttribute("data-row"));
+    const newColumn = parseInt(elmBox.getAttribute("data-column"));
+
+    currentPlayer.moveTo(newRow, newColumn);
+
+    // Change turn
     currentPlayer = currentPlayer === PLAYERS[0] ? PLAYERS[1] : PLAYERS[0];
+    placeValidPlayerMoves(map, currentPlayer);
+  }
+}
+
+/**
+ * 
+ * @param {Array} map - The Map Matrix.
+ * @param {Player} player - The player with the turn.
+ */
+const placeValidPlayerMoves = function(map, player) {
+  // Clean up the previous valid player movers.
+  document.querySelectorAll(".valid").forEach(elmBox => elmBox.classList.remove("valid"));
+
+  const {row, column} = player.location;
+  const rows = map.length - 1;
+  const columns = map[0].length - 1;
+
+  if (row > 0) {
+    const breakLimit = row < 3 ? row : 3;
+
+    for (let index = 1; ; index++) {
+      if (index > breakLimit) { break; }
+
+      getBoxElement(row - index, column).classList.add('valid');
+    }
+  }
+
+  if (row < rows) {
+    const breakLimit = row > (rows - 3) ? (rows - row) : 3;
+
+    for (let index = 1; ; index++) {
+      if (index > breakLimit) { break; }
+
+      getBoxElement(row + index, column).classList.add('valid');
+    }
+  }
+
+  if (column > 0) {
+    const breakLimit = column < 3 ? column : 3;
+
+    for (let index = 1; ; index++) {
+      if (index > breakLimit) { break; }
+
+      getBoxElement(row, column - index).classList.add('valid');
+    }
+  }
+
+  if (column < columns) {
+    const breakLimit = column > (columns - 3) ? (columns - column) : 3;
+
+    for (let index = 1; ; index++) {
+      if (index > breakLimit) { break; }
+
+      getBoxElement(row, column + index).classList.add('valid');
+    }
   }
 }
 
@@ -197,13 +267,7 @@ function placePlayer(player, map, rows, columns, players, weapons) {
   const box = isBoxAvailable(map, rows, columns, randBox);
 
   if (box.available && isBoxInUse(box, weapons) === false && isBoxInUse(box, players) === false) {
-    player.location.row = box.row;
-    player.location.column = box.column;
-
-    const playerElm = document.createElement("img");
-    playerElm.className = `player ${player.className}`;
-    playerElm.src = player.src;
-    getBoxElement(player.location.row, player.location.column).appendChild(playerElm);
+    player.moveTo(box.row, box.column);
   } else {
     placePlayer(player, map, rows, columns, players, weapons);
   }

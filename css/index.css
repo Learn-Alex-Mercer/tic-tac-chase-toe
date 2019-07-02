@@ -37,3 +37,7 @@ html, body {
 .map .weapon {
   width: 90%;
 }
+
+.map .valid {
+  border: 1px dotted greenyellow;
+}
