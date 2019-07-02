@@ -18,7 +18,7 @@ import { getRandomBox, getBoxElement } from './helper.js';
 const CLICK_EVENT = "click";
 
 /**
- * A constant list of players.
+ * A list of players.
  * @readonly
  */
 const PLAYERS = [];
@@ -219,7 +219,14 @@ function placeWeapon(weapon, map, rows, columns, weapons) {
   }
 }
 
-// Find out if the box in question is marked as available or unavailable.
+/**
+ * Find out if the box in question is marked as available or unavailable.
+ * @param {Array} map - The Map Matrix.
+ * @param {number} rows - The number of rows in the map.
+ * @param {number} columns - The number of columns in the map.
+ * @param {number} box - The box number in question.
+ * @returns {object}
+ */
 function isBoxAvailable(map, rows, columns, box) {
   // Convert the box number into something we can use to find the row and
   // column in the map to which the box belongs to.
