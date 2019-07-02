@@ -13,6 +13,7 @@
 import Map from './map.js';
 import Weapon from './weapon.js';
 import Player from './player.js';
+import { getRandomBox, getBoxElement } from './helper.js';
 
 const CLICK_EVENT = "click";
 
@@ -206,13 +207,4 @@ function placePlayer(player, map, rows, columns, players, weapons) {
   } else {
     placePlayer(player, map, rows, columns, players, weapons);
   }
-}
-
-// Get a random box between 1 and (rows * columns).
-function getRandomBox(rows, columns) {
-  return Math.floor( Math.random() * (rows * columns) );
-}
-
-function getBoxElement(row, column) {
-  return document.querySelectorAll(".row")[row].querySelectorAll(".box")[column];
 }
