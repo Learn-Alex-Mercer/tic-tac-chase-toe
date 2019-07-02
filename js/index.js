@@ -149,7 +149,11 @@ const placeValidPlayerMoves = function(map, player) {
     for (let index = 1; ; index++) {
       if (index > breakLimit) { break; }
 
-      getBoxElement(row - index, column).classList.add('valid');
+      const elmBox = getBoxElement(row - index, column);
+
+      if (elmBox.classList.contains("blocked")) { break; }
+
+      elmBox.classList.add('valid');
     }
   }
 
@@ -159,7 +163,11 @@ const placeValidPlayerMoves = function(map, player) {
     for (let index = 1; ; index++) {
       if (index > breakLimit) { break; }
 
-      getBoxElement(row + index, column).classList.add('valid');
+      const elmBox = getBoxElement(row + index, column);
+
+      if (elmBox.classList.contains("blocked")) { break; }
+
+      elmBox.classList.add('valid');
     }
   }
 
@@ -169,7 +177,11 @@ const placeValidPlayerMoves = function(map, player) {
     for (let index = 1; ; index++) {
       if (index > breakLimit) { break; }
 
-      getBoxElement(row, column - index).classList.add('valid');
+      const elmBox = getBoxElement(row, column - index);
+
+      if (elmBox.classList.contains("blocked")) { break; }
+
+      elmBox.classList.add('valid');
     }
   }
 
@@ -179,7 +191,11 @@ const placeValidPlayerMoves = function(map, player) {
     for (let index = 1; ; index++) {
       if (index > breakLimit) { break; }
 
-      getBoxElement(row, column + index).classList.add('valid');
+      const elmBox = getBoxElement(row, column + index);
+
+      if (elmBox.classList.contains("blocked")) { break; }
+
+      elmBox.classList.add('valid');
     }
   }
 }
