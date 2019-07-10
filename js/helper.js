@@ -5,7 +5,7 @@
  * @returns {number}
  */
 const getRandomBox = function(rows, columns) {
-  return Math.floor( Math.random() * (rows * columns) );
+  return Math.floor(Math.random() * (rows * columns));
 }
 
 /**

@@ -32,15 +32,15 @@ export default class Map {
    */
   _buildMapMatrix() {
     let newMapMatrix = [];
-    
+
     for (let row = 0; row < this.rows; row++) {
       let matrixRow = [];
 
       for (let column = 0; column < this.columns; column++) {
         // Get a random number between 1 and (ROWS * COLUMNS).
-        const randChance = Math.floor( Math.random() * (this.rows * this.columns) );
+        const randChance = Math.floor(Math.random() * (this.rows * this.columns));
 
-        // Set the column as available if the random number is 80 or less.
+        // Set the column as available if the random number is `percentage` or less.
         // Otherwise, the column will be unavailable for players to use.
         matrixRow.push(randChance <= this.percentage ? true : false);
       }
