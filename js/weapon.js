@@ -13,16 +13,16 @@ export default class Weapon {
    * @param {number} specs.damage - The amount of damage caused by the weapon.
    * @param {?Player} specs.owner - The owner of the weapon.
    * @param {?object} specs.location - The current location of the weapon on the board. If it's not owned.
-   * @param {?number} specs.location.row - The current row of the board where the weapon is located.
-   * @param {?number} specs.location.column - The current column of the board where the weapon is located.
+   * @param {number} specs.location.row - The current row of the board where the weapon is located.
+   * @param {number} specs.location.column - The current column of the board where the weapon is located.
    */
   constructor(specs) {
     this.name = specs.name;
     this.className = specs.className;
     this.src = specs.src;
     this.damage = specs.damage;
-    this.owner = specs.owner;
-    this.location = specs.location;
+    this.owner = specs.owner ? specs.owner : null;
+    this.location = specs.location ? specs.location : { row: null, column: null };
 
     this.element = document.createElement("img");
     this.element.className = `weapon ${this.className}`;
@@ -36,7 +36,7 @@ export default class Weapon {
    * @returns {object} Location Object
    */
   getLocation() {
-    if (this.owner === undefined || this.owner === null) {
+    if (this.owner === null) {
       return this.location;
     } else {
       return this.owner.location;
@@ -55,6 +55,15 @@ export default class Weapon {
     this._move({row, column});
 
     return true;
+  }
+
+  /**
+   * Move the weapon to the same location as its owner.
+   */
+  moveToOwner() {
+    if (this.owner !== null) {
+      this._move(this.owner.location);
+    }
   }
 
   /**
