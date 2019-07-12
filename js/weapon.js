@@ -1,3 +1,5 @@
+import { getBoxElement } from './helper.js';
+
 /**
  * Create a Weapon class.
  */
@@ -21,6 +23,10 @@ export default class Weapon {
     this.damage = specs.damage;
     this.owner = specs.owner;
     this.location = specs.location;
+
+    this.element = document.createElement("img");
+    this.element.className = `weapon ${this.className}`;
+    this.element.src = this.src;
   }
 
   /**
@@ -44,13 +50,24 @@ export default class Weapon {
    * @returns {boolean} True if the weapon was moved to the new location.
    */
   moveTo(row, column) {
-    if (this.owner !== undefined || this.owner !== null) { return false; }
+    if (this.owner !== null) { return false; }
 
-    this.location.row = row;
-    this.location.column = column;
-
-    console.log(`${this.name} moved to ${row}x${column}.`)
+    this._move({row, column});
 
     return true;
+  }
+
+  /**
+   * Move the weapon to the given location.
+   * @param {object} location - The new location of the weapon on the board.
+   * @param {number} location.row - The new row of the board where the weapon should be moved to.
+   * @param {number} location.column - The new column of the board where the weapon should be moved to.
+   * @private
+   */
+  _move(location) {
+    this.location.row = location.row;
+    this.location.column = location.column;
+
+    getBoxElement(this.location.row, this.location.column).appendChild(this.element);
   }
 }

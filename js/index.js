@@ -213,20 +213,12 @@ function placeWeapons(map, mapElm, weapons) {
 
 function placeWeapon(weapon, map, rows, columns, weapons) {
   const randBox = getRandomBox(rows, columns);
-  
   const box = isBoxAvailable(map, rows, columns, randBox);
 
   // In case the box is available and does not already contains another weapon.
   // We can go ahead and add the given weapon to this box.
   if (box.available && isBoxInUse(box, weapons) === false) {
-    weapon.location.row = box.row;
-    weapon.location.column = box.column;
-
-    // Add the weapon to the given box in the map.
-    const weaponElm = document.createElement("img");
-    weaponElm.className = `weapon ${weapon.className}`;
-    weaponElm.src = weapon.src;
-    getBoxElement(weapon.location.row, weapon.location.column).appendChild(weaponElm);
+    weapon.moveTo(box.row, box.column);
   } else {
     // If we don't find an available box or if it already contains another weapon.
     // Go ahead and call this function again with the same parameters until we can
