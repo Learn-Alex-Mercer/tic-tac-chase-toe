@@ -27,6 +27,7 @@ export default class Player {
     this.element = document.createElement("img");
     this.element.className = `player ${this.className}`;
     this.element.src = this.src;
+    this.element.setAttribute("data-player-id", this.className);
 
     this.oldWeapon = null;
   }
@@ -74,12 +75,14 @@ export default class Player {
   }
 
   /**
-   * Find and show valid moves on the map for the player.
+   * Find and show valid moves on the map for the player and update their turn status.
    * @param {Array} map - The Map Matrix.
    */
-  showValidMoves(map) {
-    // Clean up the previous valid player movers.
+  takeTurn(map) {
+    // Clean up the previous players valid move options and turn status.
     document.querySelectorAll(".valid").forEach(elmBox => elmBox.classList.remove("valid"));
+    document.querySelector(".current-player") && document.querySelector(".current-player").classList.remove("current-player");
+    this.element.classList.add("current-player");
 
     const {row, column} = this.location;
     const rows = map.length - 1;

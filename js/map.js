@@ -1,3 +1,5 @@
+const CLICK_EVENT = "click";
+
 /**
  * Create a Map class.
  */
@@ -8,17 +10,23 @@ export default class Map {
    * @param {number} columns - The number of columns for the map.
    * @param {number} percentage - The percentage for the available boxes.
    * @param {Element} containerElement - The DOM container element for the rendered map.
+   * @param {Array} weapons - The list of weapons on the map.
+   * @param {Array} players - The list of players on the map.
    * @returns {Array} Map Matrix
    */
-  constructor(rows = 100, columns = 100, percentage = 90, containerElement) {
+  constructor(rows = 100, columns = 100, percentage = 90, containerElement, weapons, players) {
     this.rows = rows;
     this.columns = columns;
     this.percentage = percentage;
     this.container = containerElement;
+    this.weapons = weapons;
+    this.players = players;
 
     this.matrix = this._verifiedMapMatrix();
 
     this._generateMap();
+
+    this.container.addEventListener(CLICK_EVENT, this.onEmptyBoxClicked);
 
     return this.matrix;
   }
@@ -100,5 +108,34 @@ export default class Map {
       // Add the completed row to the Map element in the DOM.
       this.container.appendChild(elmRow);
     });
+  }
+
+  /**
+   * Move the player to the selected valid box. Where they will pick up any weapon inside
+   * the box. And, change the game turn for the next player.
+   * @param {Event} e
+  */
+  onEmptyBoxClicked = (e) => {
+    const elmBox = e.target;
+
+    if (elmBox.classList.contains("valid")) {
+      const newRow = parseInt(elmBox.getAttribute("data-row"));
+      const newColumn = parseInt(elmBox.getAttribute("data-column"));
+
+      // Find current player.
+      let currentPlayer = this.players.find((player) => {
+        return player.className === this.container.querySelector(".current-player").getAttribute("data-player-id");
+      });
+
+      if (elmBox.querySelector(".weapon") !== null) {
+        currentPlayer.pickUpWeapon(this.weapons, newRow, newColumn);
+      }
+
+      currentPlayer.moveTo(newRow, newColumn);
+
+      // Change turn
+      currentPlayer = currentPlayer === this.players[0] ? this.players[1] : this.players[0];
+      currentPlayer.takeTurn(this.matrix);
+    }
   }
 }
