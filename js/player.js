@@ -55,6 +55,69 @@ export default class Player {
   }
 
   /**
+   * Find and show valid moves on the map for the player.
+   * @param {Array} map - The Map Matrix.
+   */
+  showValidMoves(map) {
+    // Clean up the previous valid player movers.
+    document.querySelectorAll(".valid").forEach(elmBox => elmBox.classList.remove("valid"));
+
+    const {row, column} = this.location;
+    const rows = map.length - 1;
+    const columns = map[0].length - 1;
+
+    // When the player is near the top side of the map.
+    if (row > 0) {
+      const breakLimit = row < 3 ? row : 3;
+      this._findValidMoves("up", breakLimit, row, column);
+    }
+
+    // When the player is near the bottom side of the map.
+    if (row < rows) {
+      const breakLimit = row > (rows - 3) ? (rows - row) : 3;
+      this._findValidMoves("down", breakLimit, row, column);
+    }
+
+    // When the player is near the left side of the map.
+    if (column > 0) {
+      const breakLimit = column < 3 ? column : 3;
+      this._findValidMoves("left", breakLimit, row, column);
+    }
+
+    // When the player is near the right side of the map.
+    if (column < columns) {
+      const breakLimit = column > (columns - 3) ? (columns - column) : 3;
+      this._findValidMoves("right", breakLimit, row, column);
+    }
+  }
+
+  /**
+   * Find up to 3 valid moves in a given direction.
+   * @param {string} direction - The direction to search in.
+   * @param {number} limit - The max limit of moves to be found.
+   * @param {number} initialRow - Starting row to search around.
+   * @param {number} initialColumn - Starting column to search around.
+   */
+  _findValidMoves(direction, limit, initialRow, initialColumn) {
+    for (let index = 1; index <= limit; index++) {
+      let newRow = initialRow;
+      let newColumn = initialColumn;
+
+      if (direction === "up") { newRow = initialRow - index; }
+      if (direction === "down") { newRow = initialRow + index; }
+      if (direction === "left") { newColumn = initialColumn - index; }
+      if (direction === "right") { newColumn = initialColumn + index; }
+
+      const elmBox = getBoxElement(newRow, newColumn);
+
+      // If we hit a blocked box, there aren't any vaild moves left in this direction.
+      if (elmBox.classList.contains("blocked")) { break; }
+
+      elmBox.classList.add('valid');
+    }
+  }
+
+  /**
    * Pick up a new weapon and prepare to drop the old one at the same place, swapping them.
    * @param {Array} weapons - The list of weapons to find the new weapon from.
    * @param {number} row - The row of the weapon to pickup from.

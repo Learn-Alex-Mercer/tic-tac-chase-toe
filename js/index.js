@@ -94,7 +94,7 @@ function init() {
 
   currentPlayer = PLAYERS[0];
 
-  placeValidPlayerMoves(map, currentPlayer);
+  currentPlayer.showValidMoves(map);
 
   document.querySelector("div.map").addEventListener(CLICK_EVENT, onEmptyBoxClicked);
 }
@@ -119,77 +119,7 @@ const onEmptyBoxClicked = function(e) {
 
     // Change turn
     currentPlayer = currentPlayer === PLAYERS[0] ? PLAYERS[1] : PLAYERS[0];
-    placeValidPlayerMoves(map, currentPlayer);
-  }
-}
-
-/**
- * 
- * @param {Array} map - The Map Matrix.
- * @param {Player} player - The player with the turn.
- */
-const placeValidPlayerMoves = function(map, player) {
-  // Clean up the previous valid player movers.
-  document.querySelectorAll(".valid").forEach(elmBox => elmBox.classList.remove("valid"));
-
-  const {row, column} = player.location;
-  const rows = map.length - 1;
-  const columns = map[0].length - 1;
-
-  if (row > 0) {
-    const breakLimit = row < 3 ? row : 3;
-
-    for (let index = 1; ; index++) {
-      if (index > breakLimit) { break; }
-
-      const elmBox = getBoxElement(row - index, column);
-
-      if (elmBox.classList.contains("blocked")) { break; }
-
-      elmBox.classList.add('valid');
-    }
-  }
-
-  if (row < rows) {
-    const breakLimit = row > (rows - 3) ? (rows - row) : 3;
-
-    for (let index = 1; ; index++) {
-      if (index > breakLimit) { break; }
-
-      const elmBox = getBoxElement(row + index, column);
-
-      if (elmBox.classList.contains("blocked")) { break; }
-
-      elmBox.classList.add('valid');
-    }
-  }
-
-  if (column > 0) {
-    const breakLimit = column < 3 ? column : 3;
-
-    for (let index = 1; ; index++) {
-      if (index > breakLimit) { break; }
-
-      const elmBox = getBoxElement(row, column - index);
-
-      if (elmBox.classList.contains("blocked")) { break; }
-
-      elmBox.classList.add('valid');
-    }
-  }
-
-  if (column < columns) {
-    const breakLimit = column > (columns - 3) ? (columns - column) : 3;
-
-    for (let index = 1; ; index++) {
-      if (index > breakLimit) { break; }
-
-      const elmBox = getBoxElement(row, column + index);
-
-      if (elmBox.classList.contains("blocked")) { break; }
-
-      elmBox.classList.add('valid');
-    }
+    currentPlayer.showValidMoves(map);
   }
 }
 
