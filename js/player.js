@@ -27,6 +27,8 @@ export default class Player {
     this.element = document.createElement("img");
     this.element.className = `player ${this.className}`;
     this.element.src = this.src;
+
+    this.oldWeapon = null;
   }
 
   /**
@@ -44,8 +46,64 @@ export default class Player {
     if (this.weapon) {
       this.weapon.moveToOwner();
     }
+
+    // In case the player has an old weapon and is moving to a new box which doesn’t
+    // have the old weapon. Make sure the old weapon’s drop off is completed.
+    if (this.oldWeapon !== null && elmNewBox.querySelectorAll(".weapon.hidden").length === 0) {
+      this._dropOldWeapon();
+    }
   }
 
-    console.log(`${this.name} moved to ${row}x${column}.`)
+  /**
+   * Pick up a new weapon and prepare to drop the old one at the same place, swapping them.
+   * @param {Array} weapons - The list of weapons to find the new weapon from.
+   * @param {number} row - The row of the weapon to pickup from.
+   * @param {number} column - The column of the weapon to pickup from.
+   */
+  pickUpWeapon(weapons, row, column) {
+    // In case of swapping 3 weapons consecutively. Make sure, the first weapon's
+    // drop off is completed.
+    if (this.oldWeapon !== null && getBoxElement(row, column).querySelectorAll(`.${this.oldWeapon.className}`).length === 0 ) {
+      this._dropOldWeapon();
+    }
+
+    // Set the old weapon to the current weapon.
+    this.oldWeapon = this.weapon;
+
+    // Find the new weapon from the list which matches the players location.
+    const newWeapon = weapons.find(weapon => {
+      if (weapon.location.row === row && weapon.location.column === column) {
+        return weapon;
+      }
+    });
+
+    this.weapon = newWeapon;
+    this.weapon.owner = this;
+
+    // Prepare to drop the old weapon.
+    if (this.oldWeapon !== null) {
+      this._prepareToDropOldWeapon(row, column);
+    }
+  }
+
+  /**
+   * Prepare to drop the players old weapon at the given location.
+   * @param {number} dropOffRow - The drop off row.
+   * @param {number} dropOffColumn - The drop off column.
+   * @private
+   */
+  _prepareToDropOldWeapon(dropOffRow, dropOffColumn) {
+    this.oldWeapon.owner = null;
+    this.oldWeapon.moveTo(dropOffRow, dropOffColumn);
+    this.oldWeapon.element.classList.add("hidden");
+  }
+
+  /**
+   * Drop the players old weapon.
+   * @private
+   */
+  _dropOldWeapon() {
+    this.oldWeapon.element.classList.remove("hidden");
+    this.oldWeapon = null;
   }
 }

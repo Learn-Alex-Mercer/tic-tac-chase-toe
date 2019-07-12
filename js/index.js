@@ -7,7 +7,7 @@
 
 // Enable strict mode to eliminate some JavaScript silent errors 
 // by changing them to throw errors. And help JavaScript engines 
-// to perform optimizations to run our code faster.
+// to perform optimizations to run the code faster.
 'use strict';
 
 import Map from './map.js';
@@ -33,32 +33,24 @@ const WEAPONS = [
     className: "pistol",
     damage: 10,
     src: "images/weapons/pistol.png",
-    owner: null,
-    location: { row: null, column: null },
   }),
   new Weapon ({
     name: "Shotgun",
     damage: 20,
     className: "shotgun",
     src: "images/weapons/shotgun.png",
-    owner: null,
-    location: { row: null, column: null },
   }),
   new Weapon ({
     name: "Machine Gun",
     damage: 30,
     className: "machinegun",
     src: "images/weapons/machinegun.png",
-    owner: null,
-    location: { row: null, column: null },
   }),
   new Weapon ({
     name: "Sniper",
     damage: 40,
     className: "sniper",
     src: "images/weapons/sniper.png",
-    owner: null,
-    location: { row: null, column: null },
   }),
 ];
 
@@ -89,18 +81,14 @@ function init() {
     className: "playerOne",
     src: "images/people/soldier/stand.png",
     health: 100,
-    weapon: null,
-    location: { row: null, column: null }
-  }, mapElm));
+  }));
 
   PLAYERS.push(new Player({
     name: "Player 2",
     className: "playerTwo",
     src: "images/people/hitman/stand.png",
     health: 100,
-    weapon: null,
-    location: { row: null, column: null }
-  }, mapElm));
+  }));
 
   placePlayers(map, mapElm, PLAYERS, WEAPONS);
 
@@ -122,7 +110,12 @@ const onEmptyBoxClicked = function(e) {
     const newRow = parseInt(elmBox.getAttribute("data-row"));
     const newColumn = parseInt(elmBox.getAttribute("data-column"));
 
+    if (elmBox.querySelector(".weapon") !== null) {
+      currentPlayer.pickUpWeapon(WEAPONS, newRow, newColumn);
+    }
+
     currentPlayer.moveTo(newRow, newColumn);
+
 
     // Change turn
     currentPlayer = currentPlayer === PLAYERS[0] ? PLAYERS[1] : PLAYERS[0];

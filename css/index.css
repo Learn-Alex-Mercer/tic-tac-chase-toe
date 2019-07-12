@@ -41,3 +41,7 @@ html, body {
 .map .valid {
   border: 1px dotted greenyellow;
 }
+
+.hidden {
+  display: none;
+}
