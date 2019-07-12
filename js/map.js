@@ -16,11 +16,29 @@ export default class Map {
     this.percentage = percentage;
     this.container = containerElement;
 
-    this.matrix = this._buildMapMatrix();
+    this.matrix = this._verifiedMapMatrix();
 
     this._generateMap();
 
     return this.matrix;
+  }
+
+  /**
+   * Verify the generated map matrix to make sure it contains required
+   * percentage of blocked boxes. Otherwise, build a new map matrix
+   * until it meets the requirements.
+   * @private
+   * @returns {Array} Map Matrix
+   */
+  _verifiedMapMatrix() {
+    const mapMatrix = this._buildMapMatrix();
+    const boxesValid = mapMatrix.flat().filter(state => state === false).length >= (100 - this.percentage);
+
+    if (boxesValid) {
+      return mapMatrix;
+    } else {
+      return this._verifiedMapMatrix();
+    }
   }
 
   /**
