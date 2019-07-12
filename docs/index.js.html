@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>index.js - Documentation</title>
+
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav>
+    <li class="nav-link nav-home-link"><a href="index.html">Home</a></li><li class="nav-heading">Classes</li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="Map.html">Map</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Map.html#_buildMapMatrix">_buildMapMatrix</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Map.html#_generateMap">_generateMap</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Map.html#_verifiedMapMatrix">_verifiedMapMatrix</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Map.html#onEmptyBoxClicked">onEmptyBoxClicked</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="Player.html">Player</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Player.html#_dropOldWeapon">_dropOldWeapon</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Player.html#_findValidMoves">_findValidMoves</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Player.html#_prepareToDropOldWeapon">_prepareToDropOldWeapon</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Player.html#moveTo">moveTo</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Player.html#pickUpWeapon">pickUpWeapon</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Player.html#placeSelfOnMap">placeSelfOnMap</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Player.html#takeTurn">takeTurn</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="Weapon.html">Weapon</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Weapon.html#_move">_move</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Weapon.html#getLocation">getLocation</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Weapon.html#hide">hide</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Weapon.html#moveTo">moveTo</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Weapon.html#moveToOwner">moveToOwner</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Weapon.html#placeSelfOnMap">placeSelfOnMap</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Weapon.html#show">show</a></span></li><li class="nav-heading"><a href="global.html">Globals</a></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getBoxElement">getBoxElement</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getRandomBox">getRandomBox</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#init">init</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#isBoxAvailable">isBoxAvailable</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#isBoxInUse">isBoxInUse</a></span></li>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">index.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * Tic Tac Chase Toe Game
+ * @author Usman Bashir &lt;me@usmanbashir.com>
+ * @copyright 2019
+ * @version 0.4.0
+ */
+
+// Enable strict mode to eliminate some JavaScript silent errors 
+// by changing them to throw errors. And help JavaScript engines 
+// to perform optimizations to run the code faster.
+'use strict';
+
+import Map from './map.js';
+import Weapon from './weapon.js';
+import Player from './player.js';
+
+/**
+ * Get everything setup and the game responding to user actions.
+ * This method requires the classes {@link Map}, {@link Weapon} and {@link Player}.
+ * @function
+ */
+const init = function() {
+  console.log("Tic Tac Chase Toe Init...");
+
+  const WEAPONS = [
+    new Weapon ({
+      name: "Pistol",
+      className: "pistol",
+      damage: 10,
+      src: "images/weapons/pistol.png",
+    }),
+    new Weapon ({
+      name: "Shotgun",
+      damage: 20,
+      className: "shotgun",
+      src: "images/weapons/shotgun.png",
+    }),
+    new Weapon ({
+      name: "Machine Gun",
+      damage: 30,
+      className: "machinegun",
+      src: "images/weapons/machinegun.png",
+    }),
+    new Weapon ({
+      name: "Sniper",
+      damage: 40,
+      className: "sniper",
+      src: "images/weapons/sniper.png",
+    }),
+  ];
+
+  const PLAYERS = [
+    new Player({
+      name: "Player 1",
+      className: "playerOne",
+      src: "images/people/soldier/stand.png",
+      health: 100,
+    }),
+    new Player({
+      name: "Player 2",
+      className: "playerTwo",
+      src: "images/people/hitman/stand.png",
+      health: 100,
+    }),
+  ];
+
+  const elmMap = document.querySelector(".map");
+  const map = new Map(10, 10, 90, elmMap, WEAPONS, PLAYERS);
+
+  // Take the pre-defined weapons and randomly distribute them across the game board.
+  WEAPONS.forEach(weapon => {
+    weapon.placeSelfOnMap(map, WEAPONS);
+  });
+
+  // Take the pre-defined players and randomly distribute them across the game board.
+  PLAYERS.forEach(player => {
+    player.placeSelfOnMap(map, PLAYERS, WEAPONS);
+  });
+
+  // Start the game by giving the first turn to player one.
+  const currentPlayer = PLAYERS[0];
+  currentPlayer.takeTurn(map);
+}
+
+// Call the initialization function when the DOM is done loading to 
+// get everything setup and the game responding to user actions.
+document.addEventListener("DOMContentLoaded", () => init());</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<br class="clear">
+
+<footer>
+    Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.2</a> on Sat Jul 13 2019 02:30:15 GMT+0300 (+03) using the Minami theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/linenumber.js"></script>
+</body>
+</html>
