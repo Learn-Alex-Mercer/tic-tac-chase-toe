@@ -114,6 +114,7 @@ export default class Map {
    * Move the player to the selected valid box. Where they will pick up any weapon inside
    * the box. And, change the game turn for the next player.
    * @param {Event} e
+   * @function
   */
   onEmptyBoxClicked = (e) => {
     const elmBox = e.target;
