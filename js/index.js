@@ -13,7 +13,7 @@
 import Map from './map.js';
 import Weapon from './weapon.js';
 import Player from './player.js';
-import { getRandomBox, getBoxElement, isBoxAvailable } from './helper.js';
+import { getRandomBox, getBoxElement, isBoxAvailable, isBoxInUse } from './helper.js';
 
 const CLICK_EVENT = "click";
 
@@ -90,7 +90,7 @@ function init() {
     health: 100,
   }));
 
-  placePlayers(map, mapElm, PLAYERS, WEAPONS);
+  placePlayers(map, PLAYERS, WEAPONS);
 
   currentPlayer = PLAYERS[0];
 
@@ -220,19 +220,7 @@ function placeWeapon(weapon, map, rows, columns, weapons) {
   }
 }
 
-// Check if any of the weapons/players have already been placed on the map.
-// So we don't add another one of them in the same box on the map.
-function isBoxInUse(box, items) {
-  return items.some(item => {
-    if (item.location.row === box.row && item.location.column === box.column) {
-      return true;
-    } else {
-      return false;
-    }
-  });
-}
-
-function placePlayers(map, mapElm, players, weapons) {
+function placePlayers(map, players, weapons) {
   const rows = map.length;
   const columns = map[0].length;
 

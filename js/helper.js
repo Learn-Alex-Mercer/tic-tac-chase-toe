@@ -46,4 +46,16 @@ const isBoxAvailable = function(map, rows, columns, box) {
   return { available: false };
 }
 
-export { getRandomBox, getBoxElement, isBoxAvailable };
+// Check if any of the weapons/players have already been placed on the map.
+// So we don't add another one of them in the same box on the map.
+const isBoxInUse = function(box, items) {
+  return items.some(item => {
+    if (item.location.row === box.row && item.location.column === box.column) {
+      return true;
+    } else {
+      return false;
+    }
+  });
+}
+
+export { getRandomBox, getBoxElement, isBoxAvailable, isBoxInUse };
