@@ -1,4 +1,4 @@
-import { getBoxElement } from './helper.js';
+import { getBoxElement, getRandomBox, isBoxAvailable, isBoxInUse } from './helper.js';
 
 /**
  * Create a Player class.
@@ -29,6 +29,23 @@ export default class Player {
     this.element.src = this.src;
 
     this.oldWeapon = null;
+  }
+
+  /**
+   * Place the player randomly on the new map.
+   * @param {Array} map - The Map Matrix.
+   */
+  placeSelfOnMap(map, players, weapons) {
+    const rows = map.length;
+    const columns = map[0].length;
+    const randBox = getRandomBox(rows, columns);
+    const box = isBoxAvailable(map, rows, columns, randBox);
+
+    if (box.available && isBoxInUse(box, weapons) === false && isBoxInUse(box, players) === false) {
+      this.moveTo(box.row, box.column);
+    } else {
+      this.placeSelfOnMap(map, players, weapons);
+    }
   }
 
   /**

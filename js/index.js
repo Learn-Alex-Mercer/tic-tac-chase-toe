@@ -13,7 +13,7 @@
 import Map from './map.js';
 import Weapon from './weapon.js';
 import Player from './player.js';
-import { getRandomBox, getBoxElement, isBoxAvailable, isBoxInUse } from './helper.js';
+import { getRandomBox, isBoxAvailable, isBoxInUse } from './helper.js';
 
 const CLICK_EVENT = "click";
 
@@ -90,7 +90,9 @@ function init() {
     health: 100,
   }));
 
-  placePlayers(map, PLAYERS, WEAPONS);
+  PLAYERS.forEach(player => {
+    player.placeSelfOnMap(map, PLAYERS, WEAPONS);
+  });
 
   currentPlayer = PLAYERS[0];
 
@@ -147,26 +149,5 @@ function placeWeapon(weapon, map, rows, columns, weapons) {
     // Go ahead and call this function again with the same parameters until we can
     // find an available box that does not contains a weapon.
     placeWeapon(weapon, map, rows, columns, weapons);
-  }
-}
-
-function placePlayers(map, players, weapons) {
-  const rows = map.length;
-  const columns = map[0].length;
-
-  players.forEach(player => {
-    placePlayer(player, map, rows, columns, players, weapons);
-  });
-}
-
-function placePlayer(player, map, rows, columns, players, weapons) {
-  const randBox = getRandomBox(rows, columns);
-
-  const box = isBoxAvailable(map, rows, columns, randBox);
-
-  if (box.available && isBoxInUse(box, weapons) === false && isBoxInUse(box, players) === false) {
-    player.moveTo(box.row, box.column);
-  } else {
-    placePlayer(player, map, rows, columns, players, weapons);
   }
 }
