@@ -1,4 +1,4 @@
-import { getBoxElement } from './helper.js';
+import { getBoxElement, getRandomBox, isBoxAvailable, isBoxInUse } from './helper.js';
 
 /**
  * Create a Weapon class.
@@ -27,6 +27,28 @@ export default class Weapon {
     this.element = document.createElement("img");
     this.element.className = `weapon ${this.className}`;
     this.element.src = this.src;
+  }
+
+  /**
+   * Place the weapon randomly on the new map.
+   * @param {Array} map - The Map Matrix.
+   */
+  placeSelfOnMap(map, weapons) {
+    const rows = map.length;
+    const columns = map[0].length;
+    const randBox = getRandomBox(rows, columns);
+    const box = isBoxAvailable(map, rows, columns, randBox);
+
+    // In case the box is available and does not already contains another weapon.
+    // We can go ahead and add this weapon to the box.
+    if (box.available && isBoxInUse(box, weapons) === false) {
+      this.moveTo(box.row, box.column);
+    } else {
+      // If we don't find an available box or if it already contains another weapon.
+      // Go ahead and call this function again with the same parameters until we can
+      // find an available box that does not contains a weapon.
+      this.placeSelfOnMap(map, weapons);
+    }
   }
 
   /**

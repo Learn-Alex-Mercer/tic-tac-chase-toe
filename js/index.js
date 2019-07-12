@@ -13,7 +13,6 @@
 import Map from './map.js';
 import Weapon from './weapon.js';
 import Player from './player.js';
-import { getRandomBox, isBoxAvailable, isBoxInUse } from './helper.js';
 
 const CLICK_EVENT = "click";
 
@@ -72,8 +71,11 @@ function init() {
   const mapElm = document.querySelector(".map");
 
   map = new Map(10, 10, 90, mapElm);
-  
-  placeWeapons(map, mapElm, WEAPONS);
+
+  // Take the pre-defined weapons and randomly distribute them across the game board.
+  WEAPONS.forEach(weapon => {
+    weapon.placeSelfOnMap(map, WEAPONS);
+  });
 
 
   PLAYERS.push(new Player({
@@ -122,32 +124,5 @@ const onEmptyBoxClicked = function(e) {
     // Change turn
     currentPlayer = currentPlayer === PLAYERS[0] ? PLAYERS[1] : PLAYERS[0];
     currentPlayer.showValidMoves(map);
-  }
-}
-
-
-// Take the pre-defined weapons and randomly distribute them across the game board.
-function placeWeapons(map, mapElm, weapons) {
-  const rows = map.length;
-  const columns = map[0].length;
-
-  weapons.forEach(weapon => {
-    placeWeapon(weapon, map, rows, columns, weapons);
-  });
-}
-
-function placeWeapon(weapon, map, rows, columns, weapons) {
-  const randBox = getRandomBox(rows, columns);
-  const box = isBoxAvailable(map, rows, columns, randBox);
-
-  // In case the box is available and does not already contains another weapon.
-  // We can go ahead and add the given weapon to this box.
-  if (box.available && isBoxInUse(box, weapons) === false) {
-    weapon.moveTo(box.row, box.column);
-  } else {
-    // If we don't find an available box or if it already contains another weapon.
-    // Go ahead and call this function again with the same parameters until we can
-    // find an available box that does not contains a weapon.
-    placeWeapon(weapon, map, rows, columns, weapons);
   }
 }
