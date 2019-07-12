@@ -13,16 +13,16 @@ export default class Player {
    * @param {number} specs.health - The current health level of the player.
    * @param {?Weapon} specs.weapon - The current weapon owned by the player.
    * @param {?object} specs.location - The current location of the player on the board.
-   * @param {?number} specs.location.row - The current row of the board where the player is located.
-   * @param {?number} specs.location.column - The current column of the board where the player is located.
+   * @param {number} specs.location.row - The current row of the board where the player is located.
+   * @param {number} specs.location.column - The current column of the board where the player is located.
    */
   constructor(specs) {
     this.name = specs.name;
     this.className = specs.className;
     this.src = specs.src;
     this.health = specs.health;
-    this.weapon = specs.weapon;
-    this.location = specs.location;
+    this.weapon = specs.weapon ? specs.weapon : null;
+    this.location = specs.location ? specs.location : { row: null, column: null };
 
     this.element = document.createElement("img");
     this.element.className = `player ${this.className}`;
@@ -38,7 +38,13 @@ export default class Player {
     this.location.row = row;
     this.location.column = column;
 
-    getBoxElement(this.location.row, this.location.column).appendChild(this.element);
+    const elmNewBox = getBoxElement(row, column);
+    elmNewBox.appendChild(this.element);
+
+    if (this.weapon) {
+      this.weapon.moveToOwner();
+    }
+  }
 
     console.log(`${this.name} moved to ${row}x${column}.`)
   }
