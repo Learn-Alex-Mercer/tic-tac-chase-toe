@@ -34,6 +34,8 @@ export default class Player {
   /**
    * Place the player randomly on the new map.
    * @param {Array} map - The Map Matrix.
+   * @param {Array} players - The list of other players potentially on the map.
+   * @param {Array} weapons - The list of other weapons potentially on the map.
    */
   placeSelfOnMap(map, players, weapons) {
     const rows = map.length;
