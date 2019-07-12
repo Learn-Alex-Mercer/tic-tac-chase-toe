@@ -44,6 +44,20 @@ export default class Weapon {
   }
 
   /**
+   * Hide the DOM element for the weapon.
+   */
+  hide() {
+    this.element.classList.add("hidden");
+  }
+
+  /**
+   * Show the DOM element for the weapon.
+   */
+  show() {
+    this.element.classList.remove("hidden");
+  }
+
+  /**
    * Place the weapon on the given row and column, if it's not owned by a {@link Player}.
    * @param {number} row - The new row of the board where the weapon should be located.
    * @param {number} column - The new column of the board where the weapon should be located.

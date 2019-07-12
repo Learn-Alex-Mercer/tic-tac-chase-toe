@@ -95,7 +95,7 @@ export default class Player {
   _prepareToDropOldWeapon(dropOffRow, dropOffColumn) {
     this.oldWeapon.owner = null;
     this.oldWeapon.moveTo(dropOffRow, dropOffColumn);
-    this.oldWeapon.element.classList.add("hidden");
+    this.oldWeapon.hide();
   }
 
   /**
@@ -103,7 +103,7 @@ export default class Player {
    * @private
    */
   _dropOldWeapon() {
-    this.oldWeapon.element.classList.remove("hidden");
+    this.oldWeapon.show();
     this.oldWeapon = null;
   }
 }
