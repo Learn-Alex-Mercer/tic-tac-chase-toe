@@ -13,7 +13,7 @@
 import Map from './map.js';
 import Weapon from './weapon.js';
 import Player from './player.js';
-import { getRandomBox, getBoxElement } from './helper.js';
+import { getRandomBox, getBoxElement, isBoxAvailable } from './helper.js';
 
 const CLICK_EVENT = "click";
 
@@ -218,34 +218,6 @@ function placeWeapon(weapon, map, rows, columns, weapons) {
     // find an available box that does not contains a weapon.
     placeWeapon(weapon, map, rows, columns, weapons);
   }
-}
-
-/**
- * Find out if the box in question is marked as available or unavailable.
- * @param {Array} map - The Map Matrix.
- * @param {number} rows - The number of rows in the map.
- * @param {number} columns - The number of columns in the map.
- * @param {number} box - The box number in question.
- * @returns {object}
- */
-function isBoxAvailable(map, rows, columns, box) {
-  // Convert the box number into something we can use to find the row and
-  // column in the map to which the box belongs to.
-  // 
-  // Example: (67 * 10) / 100 = 6.7
-  const result = (box * columns) / (rows * columns);
-
-  // The digits before the decimal separator represent the row.
-  const row = Math.floor(result);
-
-  // The digits after the decimal separator represent the column.
-  const column = parseInt((result + "").split(".")[1]);
-
-  if (map[row][column]) {
-    return { available: true, row: row, column: column };
-  }
-  
-  return { available: false };
 }
 
 // Check if any of the weapons/players have already been placed on the map.
