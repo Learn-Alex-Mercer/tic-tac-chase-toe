@@ -30,6 +30,7 @@ export default class Player {
     this.element.setAttribute("data-player-id", this.className);
 
     this.oldWeapon = null;
+    this.enemy = null;
   }
 
   /**
@@ -45,6 +46,13 @@ export default class Player {
     const box = isBoxAvailable(map, rows, columns, randBox);
 
     if (box.available && isBoxInUse(box, weapons) === false && isBoxInUse(box, players) === false) {
+      // Remember the enemy player.
+      players.forEach(player => {
+        if (player.name !== this.name) {
+          this.enemy = player;
+        }
+      });
+
       this.moveTo(box.row, box.column);
     } else {
       this.placeSelfOnMap(map, players, weapons);
@@ -71,6 +79,70 @@ export default class Player {
     // have the old weapon. Make sure the old weapon’s drop off is completed.
     if (this.oldWeapon !== null && elmNewBox.querySelectorAll(".weapon.hidden").length === 0) {
       this._dropOldWeapon();
+    }
+
+    // Check to see if the other player has been placed on the map and is in any of the
+    // adjacent boxes. If they are, then kick off the battle.
+    if(this.enemy.location) {
+      const searchDirections = [
+        'TOP',
+        'BOTTOM',
+        'LEFT',
+        'RIGHT',
+        'TOP_LEFT',
+        'TOP_RIGHT',
+        'BOTTOM_LEFT',
+        'BOTTOM_RIGHT'];
+
+      const searchResult = searchDirections.filter(direction => this._findEnemy(direction));
+
+      if (searchResult.length === 1) {
+        console.log('Battle Kick Off Time!!!');
+      }
+    }
+  }
+
+  /**
+   * Find the enemy in the adjacent box in a given direction.
+   *
+   * @param {string} direction - The direction to search in.
+   */
+  _findEnemy(direction) {
+    // Search only 1 box away.
+    const limit = 1;
+
+    // Cache the initial location of current player as the starting point for the search.
+    const initialRow = this.location.row;
+    const initialColumn = this.location.column;
+
+    let newRow = initialRow;
+    let newColumn = initialColumn;
+
+    if (direction.includes("TOP")) { newRow = initialRow - limit; }
+    if (direction.includes("BOTTOM")) { newRow = initialRow + limit; }
+    if (direction.includes("LEFT")) { newColumn = initialColumn - limit; }
+    if (direction.includes("RIGHT")) { newColumn = initialColumn + limit; }
+
+    let elmBox = null;
+
+    // If the search generated an invalid grid location. Using it will result in an
+    // exception being thrown. Instead of having a perfect system that won’t produce
+    // an invalid location. We can simply ignore the search location if it results
+    // in an exception. Producing the same result in the end.
+    try {
+      elmBox = getBoxElement(newRow, newColumn);
+    } catch (e) {
+      return false;
+    }
+
+    // Let's return false if the given direction is still not valid.
+    if(typeof(elmBox) === "undefined") { return false; }
+
+    // If we hit a non-blocked box. Check to see if it contains the enemy.
+    if (elmBox.classList.contains("empty")) {
+      return this.enemy.location.row === newRow && this.enemy.location.column === newColumn ? true : false;
+    } else {
+      return false;
     }
   }
 
@@ -132,7 +204,7 @@ export default class Player {
 
       const elmBox = getBoxElement(newRow, newColumn);
 
-      // If we hit a blocked box, there aren't any vaild moves left in this direction.
+      // If we hit a blocked box, there aren't any valid moves left in this direction.
       if (elmBox.classList.contains("blocked")) { break; }
 
       elmBox.classList.add('valid');
