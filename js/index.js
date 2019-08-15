@@ -76,21 +76,18 @@ const init = function() {
   PLAYERS.forEach(player => {
     player.placeSelfOnMap(map, PLAYERS, WEAPONS);
 
-    const template = document.querySelector("#dashboard-template");
-    const playerDashboard = document.importNode(template.content, true);
-    playerDashboard.querySelector('.dashboard').classList.add(player.className);
-    playerDashboard.querySelector('.name').innerText = player.name;
-    playerDashboard.querySelector('.health').innerText = `HP: ${player.health}`;
-    playerDashboard.querySelector('.photo').src = player.src;
-    playerDashboard.querySelector('.weapon-name').innerText = `Weapon: N/A`;
-    playerDashboard.querySelector('.weapon-damage').innerText = `Damage: 0`;
-    document.querySelector('.container').insertBefore(playerDashboard, elmMap);
+    const dashboard = document.querySelector(`.dashboard.${player.className}`);
+    dashboard.querySelector('.name').innerText = player.name;
+    dashboard.querySelector('.health').innerText = `HP: ${player.health}`;
+    dashboard.querySelector('.photo').src = player.src;
+    dashboard.querySelector('.weapon-name').innerText = `Weapon: N/A`;
+    dashboard.querySelector('.weapon-damage').innerText = `Damage: 0`;
   });
 
   // Start the game by giving the first turn to player one.
   const currentPlayer = PLAYERS[0];
   currentPlayer.takeTurn(map);
-  document.querySelector(`.${currentPlayer.className}`).classList.add("current");
+  document.querySelector(`.dashboard.${currentPlayer.className}`).classList.add("current");
 }
 
 // Call the initialization function when the DOM is done loading to 

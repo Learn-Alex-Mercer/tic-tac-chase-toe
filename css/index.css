@@ -24,13 +24,7 @@ body {
   width: 250px;
 }
 
-.dashboard.playerOne {
-  order: 1;
-}
-.dashboard.playerTwo {
-  order: 3;
-}
-.dashboard.playerTwo .photo {
+.playerTwo .photo {
   transform: rotate(180deg);
 }
 
@@ -44,7 +38,6 @@ body {
   border-right: 0;
   border-bottom: 0;
   width: 652px;
-  order: 2;
 }
 
 .map .row {

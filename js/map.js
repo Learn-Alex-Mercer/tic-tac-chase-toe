@@ -136,23 +136,23 @@ export default class Map {
 
       // Update the current players dashboard information.
       this.updatePlayerDashboard(currentPlayer);
-      document.querySelector(`.${currentPlayer.className}`).classList.remove("current");
+      document.querySelector(`.dashboard.${currentPlayer.className}`).classList.remove("current");
 
       // Change turn
       currentPlayer = currentPlayer === this.players[0] ? this.players[1] : this.players[0];
       currentPlayer.takeTurn(this.matrix);
-      document.querySelector(`.${currentPlayer.className}`).classList.add("current");
+      document.querySelector(`.dashboard.${currentPlayer.className}`).classList.add("current");
     }
   }
 
   updatePlayerDashboard(player) {
-    const playerDashboard = document.querySelector(`.${player.className}`);
-    playerDashboard.querySelector('.name').innerText = player.name;
-    playerDashboard.querySelector('.health').innerText = `HP: ${player.health}`;
-    playerDashboard.querySelector('.photo').src = player.src;
+    const dashboard = document.querySelector(`.dashboard.${player.className}`);
+    dashboard.querySelector('.name').innerText = player.name;
+    dashboard.querySelector('.health').innerText = `HP: ${player.health}`;
+    dashboard.querySelector('.photo').src = player.src;
     if (player.weapon) {
-      playerDashboard.querySelector('.weapon-name').innerText = `Weapon: ${player.weapon.name}`;
-      playerDashboard.querySelector('.weapon-damage').innerText = `Damage: ${player.weapon.damage}`;
+      dashboard.querySelector('.weapon-name').innerText = `Weapon: ${player.weapon.name}`;
+      dashboard.querySelector('.weapon-damage').innerText = `Damage: ${player.weapon.damage}`;
     }
   }
 }
