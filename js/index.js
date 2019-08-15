@@ -75,11 +75,22 @@ const init = function() {
   // Take the pre-defined players and randomly distribute them across the game board.
   PLAYERS.forEach(player => {
     player.placeSelfOnMap(map, PLAYERS, WEAPONS);
+
+    const template = document.querySelector("#dashboard-template");
+    const playerDashboard = document.importNode(template.content, true);
+    playerDashboard.querySelector('.dashboard').classList.add(player.className);
+    playerDashboard.querySelector('.name').innerText = player.name;
+    playerDashboard.querySelector('.health').innerText = `HP: ${player.health}`;
+    playerDashboard.querySelector('.photo').src = player.src;
+    playerDashboard.querySelector('.weapon-name').innerText = `Weapon: N/A`;
+    playerDashboard.querySelector('.weapon-damage').innerText = `Damage: 0`;
+    document.querySelector('.container').insertBefore(playerDashboard, elmMap);
   });
 
   // Start the game by giving the first turn to player one.
   const currentPlayer = PLAYERS[0];
   currentPlayer.takeTurn(map);
+  document.querySelector(`.${currentPlayer.className}`).classList.add("current");
 }
 
 // Call the initialization function when the DOM is done loading to 

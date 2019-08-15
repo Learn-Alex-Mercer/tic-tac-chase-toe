@@ -134,9 +134,25 @@ export default class Map {
 
       currentPlayer.moveTo(newRow, newColumn);
 
+      // Update the current players dashboard information.
+      this.updatePlayerDashboard(currentPlayer);
+      document.querySelector(`.${currentPlayer.className}`).classList.remove("current");
+
       // Change turn
       currentPlayer = currentPlayer === this.players[0] ? this.players[1] : this.players[0];
       currentPlayer.takeTurn(this.matrix);
+      document.querySelector(`.${currentPlayer.className}`).classList.add("current");
+    }
+  }
+
+  updatePlayerDashboard(player) {
+    const playerDashboard = document.querySelector(`.${player.className}`);
+    playerDashboard.querySelector('.name').innerText = player.name;
+    playerDashboard.querySelector('.health').innerText = `HP: ${player.health}`;
+    playerDashboard.querySelector('.photo').src = player.src;
+    if (player.weapon) {
+      playerDashboard.querySelector('.weapon-name').innerText = `Weapon: ${player.weapon.name}`;
+      playerDashboard.querySelector('.weapon-damage').innerText = `Damage: ${player.weapon.damage}`;
     }
   }
 }

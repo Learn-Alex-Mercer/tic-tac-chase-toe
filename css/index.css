@@ -2,10 +2,41 @@ html, body {
   margin: 0;
   padding: 0;
   background: rgb(117, 140, 142);
+  height: 100%;
+}
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .container {
-  padding-top: 3rem;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+}
+
+.dashboard {
+  background-color: #333;
+  color: #fff;
+  text-align: center;
+  width: 250px;
+}
+
+.dashboard.playerOne {
+  order: 1;
+}
+.dashboard.playerTwo {
+  order: 3;
+}
+.dashboard.playerTwo .photo {
+  transform: rotate(180deg);
+}
+
+.dashboard.current {
+  background-color: #eee;
+  color: #000;
 }
 
 .map {
@@ -13,7 +44,7 @@ html, body {
   border-right: 0;
   border-bottom: 0;
   width: 652px;
-  margin: auto;
+  order: 2;
 }
 
 .map .row {
