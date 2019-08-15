@@ -31,6 +31,7 @@ export default class Player {
 
     this.oldWeapon = null;
     this.enemy = null;
+    this._map = null;
   }
 
   /**
@@ -40,10 +41,10 @@ export default class Player {
    * @param {Array} weapons - The list of other weapons potentially on the map.
    */
   placeSelfOnMap(map, players, weapons) {
-    const rows = map.length;
-    const columns = map[0].length;
+    const rows = map.grid.length;
+    const columns = map.grid[0].length;
     const randBox = getRandomBox(rows, columns);
-    const box = isBoxAvailable(map, rows, columns, randBox);
+    const box = isBoxAvailable(map.grid, rows, columns, randBox);
 
     if (box.available && isBoxInUse(box, weapons) === false && isBoxInUse(box, players) === false) {
       // Remember the enemy player.
@@ -52,6 +53,9 @@ export default class Player {
           this.enemy = player;
         }
       });
+
+      // Remember the map I'm being placed on.
+      this._map = map;
 
       this.moveTo(box.row, box.column);
     } else {
@@ -97,13 +101,16 @@ export default class Player {
       const searchResult = searchDirections.filter(direction => this._findEnemy(direction));
 
       if (searchResult.length === 1) {
-        console.log('Battle Kick Off Time!!!');
+        this._map.beginFight(this);
       }
     }
   }
 
   /**
    * Find the enemy in the adjacent box in a given direction.
+   *
+   * TODO: Refactor using the newly provided map.
+   * TODO: Players occupying the same box should also trigger a fight.
    *
    * @param {string} direction - The direction to search in.
    */
@@ -148,6 +155,9 @@ export default class Player {
 
   /**
    * Find and show valid moves on the map for the player and update their turn status.
+   *
+   * TODO: Refactor using the newly provided map.
+   *
    * @param {Array} map - The Map Matrix.
    */
   takeTurn(map) {

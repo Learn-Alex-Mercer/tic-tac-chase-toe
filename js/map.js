@@ -13,7 +13,6 @@ export default class Map {
    * @param {Array} weapons - The list of weapons on the map.
    * @param {Array} players - The list of players on the map.
    * @param {function} updateDashboardFn - Function to update player dashboard UI.
-   * @returns {Array} Map Matrix
    */
   constructor(rows = 100, columns = 100, percentage = 90, containerElement, weapons, players, updateDashboardFn) {
     this.rows = rows;
@@ -24,12 +23,16 @@ export default class Map {
     this.players = players;
     this.updatePlayerDashboard = updateDashboardFn;
 
+    this._fight = false;
+
     this.matrix = this._verifiedMapMatrix();
 
     this._generateMap();
 
     this.container.addEventListener(CLICK_EVENT, this.onEmptyBoxClicked);
+  }
 
+  get grid() {
     return this.matrix;
   }
 
@@ -119,30 +122,48 @@ export default class Map {
    * @function
   */
   onEmptyBoxClicked = (e) => {
-    const elmBox = e.target;
+    if (this._fight === false) {
+      const elmBox = e.target;
 
-    if (elmBox.classList.contains("valid")) {
-      const newRow = parseInt(elmBox.getAttribute("data-row"));
-      const newColumn = parseInt(elmBox.getAttribute("data-column"));
+      if (elmBox.classList.contains("valid")) {
+        const newRow = parseInt(elmBox.getAttribute("data-row"));
+        const newColumn = parseInt(elmBox.getAttribute("data-column"));
 
-      // Find current player.
-      let currentPlayer = this.players.find((player) => {
-        return player.className === this.container.querySelector(".current-player").getAttribute("data-player-id");
-      });
+        // Find current player.
+        let currentPlayer = this.players.find((player) => {
+          return player.className === this.container.querySelector(".current-player").getAttribute("data-player-id");
+        });
 
-      if (elmBox.querySelector(".weapon") !== null) {
-        currentPlayer.pickUpWeapon(this.weapons, newRow, newColumn);
+        if (elmBox.querySelector(".weapon") !== null) {
+          currentPlayer.pickUpWeapon(this.weapons, newRow, newColumn);
+        }
+
+        currentPlayer.moveTo(newRow, newColumn);
+
+        // Update the current players dashboard information.
+        this.updatePlayerDashboard(currentPlayer);
+
+        // Change turn, if the fight has not begin when the current player moved.
+        if (this._fight === false) {
+          currentPlayer = currentPlayer === this.players[0] ? this.players[1] : this.players[0];
+          currentPlayer.takeTurn(this.matrix);
+          this.updatePlayerDashboard(currentPlayer, true);
+        }
       }
-
-      currentPlayer.moveTo(newRow, newColumn);
-
-      // Update the current players dashboard information.
-      this.updatePlayerDashboard(currentPlayer);
-
-      // Change turn
-      currentPlayer = currentPlayer === this.players[0] ? this.players[1] : this.players[0];
-      currentPlayer.takeTurn(this.matrix);
-      this.updatePlayerDashboard(currentPlayer, true);
     }
+  }
+
+  /**
+   * Disable the map if both players have weapons.
+   *
+   * @param {Player} initiatingPlayer
+   */
+  beginFight(initiatingPlayer) {
+    if (this.players[0].weapon !== null && this.players[1].weapon !== null) {
+      this._fight = true;
+      this.container.classList.add("disabled");
+    }
+
+    // TODO: Add Attack & Defend Buttons to Player Dashboards
   }
 }

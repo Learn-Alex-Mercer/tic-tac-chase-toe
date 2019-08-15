@@ -69,7 +69,7 @@ const init = function() {
 
   // Take the pre-defined weapons and randomly distribute them across the game board.
   WEAPONS.forEach(weapon => {
-    weapon.placeSelfOnMap(map, WEAPONS);
+    weapon.placeSelfOnMap(map.grid, WEAPONS);
   });
 
   // Take the pre-defined players and randomly distribute them across the game board.
@@ -81,7 +81,7 @@ const init = function() {
 
   // Start the game by giving the first turn to player one.
   const currentPlayer = PLAYERS[0];
-  currentPlayer.takeTurn(map);
+  currentPlayer.takeTurn(map.grid);
   updateDashboard(currentPlayer, true);
 }
 
