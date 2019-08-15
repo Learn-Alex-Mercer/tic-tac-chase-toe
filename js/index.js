@@ -65,7 +65,7 @@ const init = function() {
   ];
 
   const elmMap = document.querySelector(".map");
-  const map = new Map(10, 10, 90, elmMap, WEAPONS, PLAYERS);
+  const map = new Map(10, 10, 90, elmMap, WEAPONS, PLAYERS, updateDashboard);
 
   // Take the pre-defined weapons and randomly distribute them across the game board.
   WEAPONS.forEach(weapon => {
@@ -76,20 +76,36 @@ const init = function() {
   PLAYERS.forEach(player => {
     player.placeSelfOnMap(map, PLAYERS, WEAPONS);
 
-    const dashboard = document.querySelector(`.dashboard.${player.className}`);
-    dashboard.querySelector('.name').innerText = player.name;
-    dashboard.querySelector('.health').innerText = `HP: ${player.health}`;
-    dashboard.querySelector('.photo').src = player.src;
-    dashboard.querySelector('.weapon-name').innerText = `Weapon: N/A`;
-    dashboard.querySelector('.weapon-damage').innerText = `Damage: 0`;
+    updateDashboard(player);
   });
 
   // Start the game by giving the first turn to player one.
   const currentPlayer = PLAYERS[0];
   currentPlayer.takeTurn(map);
-  document.querySelector(`.dashboard.${currentPlayer.className}`).classList.add("current");
+  updateDashboard(currentPlayer, true);
 }
 
 // Call the initialization function when the DOM is done loading to 
 // get everything setup and the game responding to user actions.
 document.addEventListener("DOMContentLoaded", () => init());
+
+const updateDashboard = function(player, current = false) {
+  const dashboard = document.querySelector(`.dashboard.${player.className}`);
+
+  if (current) {
+    document.querySelector('.dashboard.current') && document.querySelector('.dashboard.current').classList.remove('current');
+    dashboard.classList.add("current");
+  }
+
+  dashboard.querySelector('.name').innerText = player.name;
+  dashboard.querySelector('.health').innerText = `HP: ${player.health}`;
+  dashboard.querySelector('.photo').src = player.src;
+
+  if (player.weapon) {
+    dashboard.querySelector('.weapon-name').innerText = `Weapon: ${player.weapon.name}`;
+    dashboard.querySelector('.weapon-damage').innerText = `Damage: ${player.weapon.damage}`;
+  } else {
+    dashboard.querySelector('.weapon-name').innerText = `Weapon: N/A`;
+    dashboard.querySelector('.weapon-damage').innerText = `Damage: 0`;
+  }
+}

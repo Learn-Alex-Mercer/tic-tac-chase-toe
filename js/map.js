@@ -12,15 +12,17 @@ export default class Map {
    * @param {Element} containerElement - The DOM container element for the rendered map.
    * @param {Array} weapons - The list of weapons on the map.
    * @param {Array} players - The list of players on the map.
+   * @param {function} updateDashboardFn - Function to update player dashboard UI.
    * @returns {Array} Map Matrix
    */
-  constructor(rows = 100, columns = 100, percentage = 90, containerElement, weapons, players) {
+  constructor(rows = 100, columns = 100, percentage = 90, containerElement, weapons, players, updateDashboardFn) {
     this.rows = rows;
     this.columns = columns;
     this.percentage = percentage;
     this.container = containerElement;
     this.weapons = weapons;
     this.players = players;
+    this.updatePlayerDashboard = updateDashboardFn;
 
     this.matrix = this._verifiedMapMatrix();
 
@@ -136,23 +138,11 @@ export default class Map {
 
       // Update the current players dashboard information.
       this.updatePlayerDashboard(currentPlayer);
-      document.querySelector(`.dashboard.${currentPlayer.className}`).classList.remove("current");
 
       // Change turn
       currentPlayer = currentPlayer === this.players[0] ? this.players[1] : this.players[0];
       currentPlayer.takeTurn(this.matrix);
-      document.querySelector(`.dashboard.${currentPlayer.className}`).classList.add("current");
-    }
-  }
-
-  updatePlayerDashboard(player) {
-    const dashboard = document.querySelector(`.dashboard.${player.className}`);
-    dashboard.querySelector('.name').innerText = player.name;
-    dashboard.querySelector('.health').innerText = `HP: ${player.health}`;
-    dashboard.querySelector('.photo').src = player.src;
-    if (player.weapon) {
-      dashboard.querySelector('.weapon-name').innerText = `Weapon: ${player.weapon.name}`;
-      dashboard.querySelector('.weapon-damage').innerText = `Damage: ${player.weapon.damage}`;
+      this.updatePlayerDashboard(currentPlayer, true);
     }
   }
 }
