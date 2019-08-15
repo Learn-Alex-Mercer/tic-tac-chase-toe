@@ -93,6 +93,7 @@ export default class Player {
         'BOTTOM',
         'LEFT',
         'RIGHT',
+        'CENTER',
         'TOP_LEFT',
         'TOP_RIGHT',
         'BOTTOM_LEFT',
@@ -110,7 +111,6 @@ export default class Player {
    * Find the enemy in the adjacent box in a given direction.
    *
    * TODO: Refactor using the newly provided map.
-   * TODO: Players occupying the same box should also trigger a fight.
    *
    * @param {string} direction - The direction to search in.
    */
@@ -129,6 +129,10 @@ export default class Player {
     if (direction.includes("BOTTOM")) { newRow = initialRow + limit; }
     if (direction.includes("LEFT")) { newColumn = initialColumn - limit; }
     if (direction.includes("RIGHT")) { newColumn = initialColumn + limit; }
+    if (direction.includes("CENTER")) {
+      newRow = initialRow;
+      newColumn = initialColumn;
+    }
 
     let elmBox = null;
 

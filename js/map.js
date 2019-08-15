@@ -134,7 +134,8 @@ export default class Map {
           return player.className === this.container.querySelector(".current-player").getAttribute("data-player-id");
         });
 
-        if (elmBox.querySelector(".weapon") !== null) {
+        // Only pickup a weapon from a box if another player is not occupying it.
+        if (elmBox.querySelector(".weapon") !== null && elmBox.querySelector(".player") === null) {
           currentPlayer.pickUpWeapon(this.weapons, newRow, newColumn);
         }
 
