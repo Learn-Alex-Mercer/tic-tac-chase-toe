@@ -165,6 +165,6 @@ export default class Map {
       this.container.classList.add("disabled");
     }
 
-    // TODO: Add Attack & Defend Buttons to Player Dashboards
+    this.updatePlayerDashboard(initiatingPlayer, true, true);
   }
 }
