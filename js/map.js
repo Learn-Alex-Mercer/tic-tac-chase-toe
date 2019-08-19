@@ -1,4 +1,4 @@
-const CLICK_EVENT = "click";
+import * as EVENTS from './events.js';
 
 /**
  * Create a Map class.
@@ -29,7 +29,7 @@ export default class Map {
 
     this._generateMap();
 
-    this.container.addEventListener(CLICK_EVENT, this.onEmptyBoxClicked);
+    this.container.addEventListener(EVENTS.CLICK, this.onEmptyBoxClicked);
   }
 
   get grid() {
