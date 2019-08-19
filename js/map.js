@@ -141,11 +141,11 @@ export default class Map {
 
         currentPlayer.moveTo(newRow, newColumn);
 
-        // Update the current players dashboard information.
-        this.updatePlayerDashboard(currentPlayer);
-
         // Change turn, if the fight has not begin when the current player moved.
         if (this._fight === false) {
+          // Update the current players dashboard information.
+          this.updatePlayerDashboard(currentPlayer);
+
           currentPlayer = currentPlayer === this.players[0] ? this.players[1] : this.players[0];
           currentPlayer.takeTurn(this.matrix);
           this.updatePlayerDashboard(currentPlayer, true);
