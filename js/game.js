@@ -145,6 +145,29 @@ export default class Game {
   }
 
   /**
+   * Stop the players from playing the game and announce the winning player.
+   * @param {Player} winner
+   */
+  gameOver(winner) {
+    // Disable the Action Buttons for both Players.
+    this.updateDashboard(this.players[0]);
+    this.updateDashboard(this.players[1]);
+
+    // Announce the winning player.
+    const elmOverlay = document.querySelector('.overlay');
+    elmOverlay.style.visibility = 'visible';
+
+    elmOverlay.querySelector('.message')
+      .innerText = `${winner.name} has won this game! With ${winner.health} health remaining.`;
+
+    // Allow the user to restart the game.
+    elmOverlay.querySelector('#restart').addEventListener(EVENTS.CLICK, this.resetGame);
+
+    // Increment the score count for the winning player.
+    this.incrementScore(winner);
+  }
+
+  /**
    * Increment the score for the wining player in the header bar.
    * @param {Player} player
    */
