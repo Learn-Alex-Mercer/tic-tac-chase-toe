@@ -123,6 +123,14 @@ export default class Game {
   }
 
   /**
+   * If either players health has reached 0, the game is over.
+   * @returns {boolean}
+   */
+  isCurrentGameOver() {
+    return this.players[0].health === 0 || this.players[1].health === 0;
+  }
+
+  /**
    * 
    * @param {Player} player 
    * @param {boolean} current 
