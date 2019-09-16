@@ -61,20 +61,16 @@ export default class Game {
       }),
     ];
 
+
     const elmMap = document.querySelector(".map");
     this.map = new Map(10, 10, 90, elmMap, this.weapons, this.players, this.updateDashboard);
 
     // Take the pre-defined weapons and randomly distribute them across the game board.
-    this.weapons.forEach(weapon => {
-      weapon.placeSelfOnMap(this.map.grid, this.weapons);
-    });
+    this.weapons.forEach(weapon => weapon.placeSelfOnMap(this.map.grid, this.weapons));
 
     // Take the pre-defined players and randomly distribute them across the game board.
-    this.players.forEach(player => {
-      player.placeSelfOnMap(this.map, this.players, this.weapons);
+    this.players.forEach(player => player.placeSelfOnMap(this.map, this.players, this.weapons));
 
-      this.updateDashboard(player);
-    });
 
     // Wire up events for attack and defend buttons.
     document.querySelectorAll('.dashboard .attack')
