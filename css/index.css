@@ -46,6 +46,7 @@ header h1 {
   color: #fff;
   text-align: center;
   width: 250px;
+  padding-bottom: 1em;
 }
 
 .playerTwo .photo {
@@ -96,4 +97,12 @@ header h1 {
 
 .disabled {
   opacity: .25;
+}
+
+.map .weapon.knifeT1,
+.map .weapon.knifeT2 {
+  width: auto;
+  height: 80%;
+}
+
 }
