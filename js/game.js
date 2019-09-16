@@ -112,9 +112,25 @@ export default class Game {
     return currentPlayerName.includes('one') ? this.players[0] : this.players[1];
   }
 
+  /**
+   * Attack the enemy player if the game isn't over. Otherwise, announce the winner.
+   * @param {Event} e
+   * @function
+   */
   onAttackClick = e => {
     const currentPlayer = this._getCurrentPlayer(e);
-    console.log(currentPlayer);
+
+    currentPlayer.attack();
+
+    if (this.isCurrentGameOver()) {
+      const winningPlayer = this.getCurrentGameWinner();
+      this.gameOver(winningPlayer);
+    } else {
+      // If the game is not over, then keep updating the dashboard
+      // and switching the player turn.
+      this.updateDashboard(currentPlayer);
+      this.updateDashboard(currentPlayer.enemy, true, true);
+    }
   }
 
   onDefendClick = e => {
