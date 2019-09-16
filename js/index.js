@@ -2,7 +2,7 @@
  * Tic Tac Chase Toe Game
  * @author Usman Bashir <me@usmanbashir.com>
  * @copyright 2019
- * @version 0.4.0
+ * @version 1.0.0
  */
 
 // Enable strict mode to eliminate some JavaScript silent errors 

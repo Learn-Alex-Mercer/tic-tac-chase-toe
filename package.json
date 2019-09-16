@@ -1,6 +1,6 @@
 {
   "name": "ttct-game",
-  "version": "0.3.0",
+  "version": "1.0.0",
   "description": "Tic Tac Chase Toe Game",
   "main": "js/index.js",
   "dependencies": {},
