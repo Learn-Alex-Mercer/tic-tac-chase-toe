@@ -301,4 +301,17 @@ export default class Player {
     this.health < 0 && (this.health = 0);
   }
 
+  /**
+   * Attack enemy player and deal the current weapons damage.
+   */
+  attack() {
+    this.enemy.takeDamage(this.weapon.damage);
+  }
+
+  /**
+   * On the next attack from the enemy, defend instead of attacking.
+   */
+  defend() {
+    this.defendOnNextTurn = true;
+  }
 }
