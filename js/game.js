@@ -131,7 +131,23 @@ export default class Game {
   }
 
   /**
-   * 
+   * Return the player who won the current game.
+   * @returns {Player} Winning Player
+   */
+  getCurrentGameWinner() {
+    if (this.players[0].health > 0) {
+      return this.players[0];
+    }
+
+    if (this.players[1].health > 0) {
+      return this.players[1];
+    }
+  }
+
+
+  /**
+   * Update the given player dashboard when player picks up a new weapon or when a 
+   * fight has started. Allowing the player to attack or defend them selves.
    * @param {Player} player 
    * @param {boolean} current 
    * @param {boolean} fight 
