@@ -32,6 +32,8 @@ export default class Player {
     this.oldWeapon = null;
     this.enemy = null;
     this._map = null;
+
+    this.defendOnNextTurn = false;
   }
 
   /**
@@ -277,4 +279,26 @@ export default class Player {
     this.oldWeapon.show();
     this.oldWeapon = null;
   }
+
+  /**
+   * When attacked, take specified damage from enemy weapon. But, only take half
+   * damage if the player is defending on this turn.
+   * @param {number} damage - Weapon damage
+   */
+  takeDamage(damage) {
+    let realDamage = damage;
+
+    // Only take half the damage if the player
+    // is defending on this turn.
+    if (this.defendOnNextTurn) {
+      realDamage = damage / 2;
+      this.defendOnNextTurn = false;
+    }
+
+    this.health -= realDamage;
+
+    // Reset the health back to 0 if it drops below.
+    this.health < 0 && (this.health = 0);
+  }
+
 }
