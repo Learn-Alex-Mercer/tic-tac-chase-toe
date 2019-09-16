@@ -144,6 +144,15 @@ export default class Game {
     }
   }
 
+  /**
+   * Increment the score for the wining player in the header bar.
+   * @param {Player} player
+   */
+  incrementScore(player) {
+    const scoreElm = document.querySelector(`.score.${player.className}`);
+    scoreElm.innerText = parseInt(scoreElm.innerText) + 1;
+  }
+
   resetGame = e => {
     window.location.reload();
   }
