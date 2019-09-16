@@ -144,6 +144,9 @@ export default class Game {
     }
   }
 
+  resetGame = e => {
+    window.location.reload();
+  }
 
   /**
    * Update the given player dashboard when player picks up a new weapon or when a 
