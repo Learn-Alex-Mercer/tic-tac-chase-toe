@@ -9,6 +9,18 @@ export default class Game {
 
     this.weapons = [
       new Weapon ({
+        name: "Knife T1",
+        className: "knifeT1",
+        damage: 5,
+        src: "images/weapons/knife_t1.png"
+      }),
+      new Weapon ({
+        name: "Knife T2",
+        className: "knifeT2",
+        damage: 5,
+        src: "images/weapons/knife_t2.png"
+      }),
+      new Weapon ({
         name: "Pistol",
         className: "pistol",
         damage: 10,
@@ -70,10 +82,26 @@ export default class Game {
     document.querySelectorAll('.dashboard .defend')
       .forEach( elm => elm.addEventListener(EVENTS.CLICK, this.onDefendClick) );
 
+
+    // Assign a starting weapon to each player.
+    const knifeOne = this.weapons[0];
+    const knifeTwo = this.weapons[1];
+
+    this.players[0].pickUpWeapon(this.weapons, knifeOne.getLocation().row, knifeOne.getLocation().column);
+    this.players[1].pickUpWeapon(this.weapons, knifeTwo.getLocation().row, knifeTwo.getLocation().column);
+
+    knifeOne.moveToOwner();
+    knifeTwo.moveToOwner();
+
+
     // Start the game by giving the first turn to player one.
     const currentPlayer = this.players[0];
     currentPlayer.takeTurn(this.map.grid);
     this.updateDashboard(currentPlayer, true);
+
+    // Update the dashboard for the 2nd player so they can also
+    // see their default weapon.
+    this.updateDashboard(this.players[1]);
   }
 
   /**
