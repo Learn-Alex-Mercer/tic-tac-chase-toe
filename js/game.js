@@ -133,9 +133,18 @@ export default class Game {
     }
   }
 
+  /**
+   * Defend against the next attack from the enemy player.
+   * @param {Event} e
+   * @function
+   */
   onDefendClick = e => {
     const currentPlayer = this._getCurrentPlayer(e);
-    console.log(currentPlayer);
+
+    currentPlayer.defend();
+
+    this.updateDashboard(currentPlayer);
+    this.updateDashboard(currentPlayer.enemy, true, true);
   }
 
   /**
