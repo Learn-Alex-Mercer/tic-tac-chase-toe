@@ -123,8 +123,14 @@ export default class Map {
   */
   onEmptyBoxClicked = (e) => {
     if (this._fight === false) {
-      const elmBox = e.target;
+      let elmBox = e.target;
 
+      // In case a weapon was clicked, find it's containing box.
+      if (elmBox.classList.contains("weapon")) {
+        elmBox = elmBox.parentNode;
+      }
+
+      // Only move the player if the player selected a valid box.
       if (elmBox.classList.contains("valid")) {
         const newRow = parseInt(elmBox.getAttribute("data-row"));
         const newColumn = parseInt(elmBox.getAttribute("data-column"));
